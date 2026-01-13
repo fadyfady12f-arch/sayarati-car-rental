@@ -1,37 +1,40 @@
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, Play, Star } from 'lucide-react';
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import { ChevronLeft, ChevronRight, Play, Star } from "lucide-react";
 
 const slides = [
   {
     id: 1,
-    image: '/images/hero/slide1.jpg',
-    title: 'استأجر سيارة أحلامك',
-    subtitle: 'اكتشف أسطولنا المتنوع من السيارات الفاخرة والاقتصادية',
-    cta: 'تصفح السيارات',
+    image:
+      "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1920&q=80",
+    title: "استأجر سيارة أحلامك",
+    subtitle: "اكتشف أسطولنا المتنوع من السيارات الفاخرة والاقتصادية",
+    cta: "تصفح السيارات",
   },
   {
     id: 2,
-    image: '/images/hero/slide2.jpg',
-    title: 'أسعار تنافسية',
-    subtitle: 'احصل على أفضل العروض والخصومات على جميع سياراتنا',
-    cta: 'عرض العروض',
+    image:
+      "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1920&q=80",
+    title: "أسعار تنافسية",
+    subtitle: "احصل على أفضل العروض والخصومات على جميع سياراتنا",
+    cta: "عرض العروض",
   },
   {
     id: 3,
-    image: '/images/hero/slide3.jpg',
-    title: 'خدمة على مدار الساعة',
-    subtitle: 'فريق دعم متاح 24/7 لخدمتك في أي وقت',
-    cta: 'تواصل معنا',
+    image:
+      "https://images.unsplash.com/photo-1489824904134-891ab64532f1?auto=format&fit=crop&w=1920&q=80",
+    title: "خدمة على مدار الساعة",
+    subtitle: "فريق دعم متاح 24/7 لخدمتك في أي وقت",
+    cta: "تواصل معنا",
   },
 ];
 
 const stats = [
-  { value: '500+', label: 'سيارة متاحة' },
-  { value: '10K+', label: 'عميل سعيد' },
-  { value: '15+', label: 'فرع في سوريا' },
-  { value: '99%', label: 'رضا العملاء' },
+  { value: "500+", label: "سيارة متاحة" },
+  { value: "10K+", label: "عميل سعيد" },
+  { value: "15+", label: "فرع في سوريا" },
+  { value: "99%", label: "رضا العملاء" },
 ];
 
 const HeroSection = () => {
@@ -126,7 +129,7 @@ const HeroSection = () => {
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    onClick={() => navigate('/cars')}
+                    onClick={() => navigate("/cars")}
                     className="btn-primary text-lg px-8 py-4"
                   >
                     {slides[currentSlide].cta}
@@ -179,8 +182,8 @@ const HeroSection = () => {
             onClick={() => goToSlide(index)}
             className={`h-2 rounded-full transition-all duration-300 ${
               index === currentSlide
-                ? 'w-8 bg-primary-500'
-                : 'w-2 bg-white/50 hover:bg-white/70'
+                ? "w-8 bg-primary-500"
+                : "w-2 bg-white/50 hover:bg-white/70"
             }`}
           />
         ))}

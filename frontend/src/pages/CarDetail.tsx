@@ -79,8 +79,12 @@ const CarDetail = () => {
               animate={{ opacity: 1, y: 0 }}
               className="bg-white rounded-2xl overflow-hidden shadow-sm"
             >
-              <div className="aspect-[16/9] bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center relative">
-                <span className="text-gray-500 text-xl">صورة السيارة</span>
+              <div className="aspect-[16/9] relative overflow-hidden">
+                <img
+                  src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=1200&q=80"
+                  alt={carData.name}
+                  className="w-full h-full object-cover"
+                />
                 <button
                   onClick={() => setIsFavorite(!isFavorite)}
                   className={`absolute top-4 left-4 w-12 h-12 rounded-full flex items-center justify-center transition-colors ${

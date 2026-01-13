@@ -1,25 +1,25 @@
-import { Suspense, useRef, useState } from 'react';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { Suspense, useRef, useState } from "react";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import {
   OrbitControls,
   Environment,
   ContactShadows,
   PresentationControls,
   Html,
-  useProgress
-} from '@react-three/drei';
-import { motion } from 'framer-motion';
-import { RotateCcw, ZoomIn, ZoomOut, Palette } from 'lucide-react';
-import * as THREE from 'three';
+  useProgress,
+} from "@react-three/drei";
+import { motion } from "framer-motion";
+import { RotateCcw, ZoomIn, ZoomOut, Palette } from "lucide-react";
+import * as THREE from "three";
 
 // Available car colors
 const carColors = [
-  { name: 'أسود', color: '#1a1a1a' },
-  { name: 'أبيض', color: '#f5f5f5' },
-  { name: 'أحمر', color: '#dc2626' },
-  { name: 'أزرق', color: '#2563eb' },
-  { name: 'رمادي', color: '#6b7280' },
-  { name: 'فضي', color: '#c0c0c0' },
+  { name: "أسود", color: "#1a1a1a" },
+  { name: "أبيض", color: "#f5f5f5" },
+  { name: "أحمر", color: "#dc2626" },
+  { name: "أزرق", color: "#2563eb" },
+  { name: "رمادي", color: "#6b7280" },
+  { name: "فضي", color: "#c0c0c0" },
 ];
 
 // Loading component
@@ -42,7 +42,8 @@ function CarModel({ color }: { color: string }) {
   useFrame((state) => {
     if (groupRef.current) {
       // Subtle floating animation
-      groupRef.current.position.y = Math.sin(state.clock.elapsedTime * 0.5) * 0.05;
+      groupRef.current.position.y =
+        Math.sin(state.clock.elapsedTime * 0.5) * 0.05;
     }
   });
 
@@ -63,23 +64,47 @@ function CarModel({ color }: { color: string }) {
       {/* Windows */}
       <mesh position={[0.3, 1.2, 0.91]}>
         <boxGeometry args={[1.8, 0.6, 0.02]} />
-        <meshStandardMaterial color="#1a1a2e" metalness={0.9} roughness={0.1} transparent opacity={0.7} />
+        <meshStandardMaterial
+          color="#1a1a2e"
+          metalness={0.9}
+          roughness={0.1}
+          transparent
+          opacity={0.7}
+        />
       </mesh>
       <mesh position={[0.3, 1.2, -0.91]}>
         <boxGeometry args={[1.8, 0.6, 0.02]} />
-        <meshStandardMaterial color="#1a1a2e" metalness={0.9} roughness={0.1} transparent opacity={0.7} />
+        <meshStandardMaterial
+          color="#1a1a2e"
+          metalness={0.9}
+          roughness={0.1}
+          transparent
+          opacity={0.7}
+        />
       </mesh>
 
       {/* Front windshield */}
       <mesh position={[-0.8, 1.1, 0]} rotation={[0, 0, -0.3]}>
         <boxGeometry args={[0.02, 0.7, 1.7]} />
-        <meshStandardMaterial color="#1a1a2e" metalness={0.9} roughness={0.1} transparent opacity={0.7} />
+        <meshStandardMaterial
+          color="#1a1a2e"
+          metalness={0.9}
+          roughness={0.1}
+          transparent
+          opacity={0.7}
+        />
       </mesh>
 
       {/* Rear windshield */}
       <mesh position={[1.4, 1.1, 0]} rotation={[0, 0, 0.3]}>
         <boxGeometry args={[0.02, 0.7, 1.7]} />
-        <meshStandardMaterial color="#1a1a2e" metalness={0.9} roughness={0.1} transparent opacity={0.7} />
+        <meshStandardMaterial
+          color="#1a1a2e"
+          metalness={0.9}
+          roughness={0.1}
+          transparent
+          opacity={0.7}
+        />
       </mesh>
 
       {/* Wheels */}
@@ -98,7 +123,11 @@ function CarModel({ color }: { color: string }) {
           {/* Rim */}
           <mesh rotation={[Math.PI / 2, 0, 0]}>
             <cylinderGeometry args={[0.2, 0.2, 0.32, 16]} />
-            <meshStandardMaterial color="#c0c0c0" metalness={0.9} roughness={0.1} />
+            <meshStandardMaterial
+              color="#c0c0c0"
+              metalness={0.9}
+              roughness={0.1}
+            />
           </mesh>
         </group>
       ))}
@@ -106,21 +135,37 @@ function CarModel({ color }: { color: string }) {
       {/* Headlights */}
       <mesh position={[-2, 0.5, 0.7]}>
         <sphereGeometry args={[0.15, 16, 16]} />
-        <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={0.5} />
+        <meshStandardMaterial
+          color="#ffffff"
+          emissive="#ffffff"
+          emissiveIntensity={0.5}
+        />
       </mesh>
       <mesh position={[-2, 0.5, -0.7]}>
         <sphereGeometry args={[0.15, 16, 16]} />
-        <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={0.5} />
+        <meshStandardMaterial
+          color="#ffffff"
+          emissive="#ffffff"
+          emissiveIntensity={0.5}
+        />
       </mesh>
 
       {/* Taillights */}
       <mesh position={[2, 0.5, 0.7]}>
         <sphereGeometry args={[0.12, 16, 16]} />
-        <meshStandardMaterial color="#dc2626" emissive="#dc2626" emissiveIntensity={0.3} />
+        <meshStandardMaterial
+          color="#dc2626"
+          emissive="#dc2626"
+          emissiveIntensity={0.3}
+        />
       </mesh>
       <mesh position={[2, 0.5, -0.7]}>
         <sphereGeometry args={[0.12, 16, 16]} />
-        <meshStandardMaterial color="#dc2626" emissive="#dc2626" emissiveIntensity={0.3} />
+        <meshStandardMaterial
+          color="#dc2626"
+          emissive="#dc2626"
+          emissiveIntensity={0.3}
+        />
       </mesh>
     </group>
   );
@@ -150,8 +195,6 @@ function Scene({ color }: { color: string }) {
       {/* Car Model */}
       <PresentationControls
         global
-        config={{ mass: 2, tension: 500 }}
-        snap={{ mass: 4, tension: 1500 }}
         rotation={[0, 0.3, 0]}
         polar={[-Math.PI / 3, Math.PI / 3]}
         azimuth={[-Math.PI / 1.4, Math.PI / 2]}
@@ -179,12 +222,17 @@ interface Car3DViewerProps {
   className?: string;
 }
 
-const Car3DViewer = ({ carName = 'السيارة', className = '' }: Car3DViewerProps) => {
+const Car3DViewer = ({
+  carName = "السيارة",
+  className = "",
+}: Car3DViewerProps) => {
   const [selectedColor, setSelectedColor] = useState(carColors[0]);
   const [showColorPicker, setShowColorPicker] = useState(false);
 
   return (
-    <div className={`relative bg-gradient-to-b from-gray-100 to-gray-200 rounded-2xl overflow-hidden ${className}`}>
+    <div
+      className={`relative bg-gradient-to-b from-gray-100 to-gray-200 rounded-2xl overflow-hidden ${className}`}
+    >
       {/* 3D Canvas */}
       <div className="aspect-[16/9] w-full">
         <Canvas
@@ -220,7 +268,9 @@ const Car3DViewer = ({ carName = 'السيارة', className = '' }: Car3DViewer
               className="w-6 h-6 rounded-full border-2 border-white shadow"
               style={{ backgroundColor: selectedColor.color }}
             />
-            <span className="text-sm font-medium text-gray-700">{selectedColor.name}</span>
+            <span className="text-sm font-medium text-gray-700">
+              {selectedColor.name}
+            </span>
             <Palette className="w-4 h-4 text-gray-500" />
           </motion.button>
 
@@ -232,7 +282,9 @@ const Car3DViewer = ({ carName = 'السيارة', className = '' }: Car3DViewer
               exit={{ opacity: 0, y: 10 }}
               className="absolute bottom-full mb-2 left-0 bg-white rounded-xl shadow-xl p-3 min-w-[200px]"
             >
-              <p className="text-sm font-medium text-gray-700 mb-2">اختر اللون</p>
+              <p className="text-sm font-medium text-gray-700 mb-2">
+                اختر اللون
+              </p>
               <div className="grid grid-cols-3 gap-2">
                 {carColors.map((color) => (
                   <button
@@ -243,8 +295,8 @@ const Car3DViewer = ({ carName = 'السيارة', className = '' }: Car3DViewer
                     }}
                     className={`flex flex-col items-center gap-1 p-2 rounded-lg transition-colors ${
                       selectedColor.name === color.name
-                        ? 'bg-primary-50 ring-2 ring-primary-500'
-                        : 'hover:bg-gray-100'
+                        ? "bg-primary-50 ring-2 ring-primary-500"
+                        : "hover:bg-gray-100"
                     }`}
                   >
                     <div

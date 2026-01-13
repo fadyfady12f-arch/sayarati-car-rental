@@ -1,47 +1,52 @@
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Star, Quote, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Star, Quote, ChevronLeft, ChevronRight } from "lucide-react";
 
 const testimonials = [
   {
     id: 1,
-    name: 'أحمد محمد',
-    role: 'رجل أعمال',
-    avatar: '/images/avatars/avatar1.jpg',
+    name: "أحمد محمد",
+    role: "رجل أعمال",
+    avatar:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80",
     rating: 5,
-    text: 'خدمة ممتازة وسيارات بحالة رائعة. استأجرت مرسيدس E-Class لرحلة عمل وكانت التجربة مثالية. سأعود للتعامل معهم بالتأكيد.',
+    text: "خدمة ممتازة وسيارات بحالة رائعة. استأجرت مرسيدس E-Class لرحلة عمل وكانت التجربة مثالية. سأعود للتعامل معهم بالتأكيد.",
   },
   {
     id: 2,
-    name: 'فاطمة العلي',
-    role: 'مهندسة',
-    avatar: '/images/avatars/avatar2.jpg',
+    name: "فاطمة العلي",
+    role: "مهندسة",
+    avatar:
+      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80",
     rating: 5,
-    text: 'أفضل شركة تأجير سيارات في سوريا. الأسعار معقولة والموظفون محترفون جداً. أنصح الجميع بالتعامل معهم.',
+    text: "أفضل شركة تأجير سيارات في سوريا. الأسعار معقولة والموظفون محترفون جداً. أنصح الجميع بالتعامل معهم.",
   },
   {
     id: 3,
-    name: 'محمود الحسن',
-    role: 'طبيب',
-    avatar: '/images/avatars/avatar3.jpg',
+    name: "محمود الحسن",
+    role: "طبيب",
+    avatar:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=150&q=80",
     rating: 5,
-    text: 'استأجرت سيارة BMW X5 لرحلة عائلية واستمتعنا كثيراً. السيارة كانت نظيفة ومريحة والخدمة كانت سريعة.',
+    text: "استأجرت سيارة BMW X5 لرحلة عائلية واستمتعنا كثيراً. السيارة كانت نظيفة ومريحة والخدمة كانت سريعة.",
   },
   {
     id: 4,
-    name: 'سارة الخطيب',
-    role: 'محامية',
-    avatar: '/images/avatars/avatar4.jpg',
+    name: "سارة الخطيب",
+    role: "محامية",
+    avatar:
+      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=150&q=80",
     rating: 4,
-    text: 'تجربة رائعة! الحجز كان سهلاً وسريعاً عبر الموقع، والسيارة كانت جاهزة في الموعد المحدد بالضبط.',
+    text: "تجربة رائعة! الحجز كان سهلاً وسريعاً عبر الموقع، والسيارة كانت جاهزة في الموعد المحدد بالضبط.",
   },
   {
     id: 5,
-    name: 'عمر الشامي',
-    role: 'مصور',
-    avatar: '/images/avatars/avatar5.jpg',
+    name: "عمر الشامي",
+    role: "مصور",
+    avatar:
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80",
     rating: 5,
-    text: 'أستخدم خدماتهم بشكل دوري لتصوير الأحداث. دائماً ما يقدمون سيارات بحالة ممتازة وأسعار تنافسية.',
+    text: "أستخدم خدماتهم بشكل دوري لتصوير الأحداث. دائماً ما يقدمون سيارات بحالة ممتازة وأسعار تنافسية.",
   },
 ];
 
@@ -66,7 +71,9 @@ const Testimonials = () => {
 
   const prevTestimonial = () => {
     setIsAutoPlaying(false);
-    setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+    setCurrentIndex(
+      (prev) => (prev - 1 + testimonials.length) % testimonials.length,
+    );
   };
 
   const goToTestimonial = (index: number) => {
@@ -121,8 +128,8 @@ const Testimonials = () => {
                         key={i}
                         className={`w-5 h-5 ${
                           i < testimonials[currentIndex].rating
-                            ? 'text-yellow-500 fill-current'
-                            : 'text-gray-300'
+                            ? "text-yellow-500 fill-current"
+                            : "text-gray-300"
                         }`}
                       />
                     ))}
@@ -141,7 +148,8 @@ const Testimonials = () => {
                         alt={testimonials[currentIndex].name}
                         className="w-full h-full object-cover"
                         onError={(e) => {
-                          (e.target as HTMLImageElement).src = '/images/avatar-placeholder.jpg';
+                          (e.target as HTMLImageElement).src =
+                            "/images/avatar-placeholder.jpg";
                         }}
                       />
                     </div>
@@ -169,8 +177,8 @@ const Testimonials = () => {
                   onClick={() => goToTestimonial(index)}
                   className={`h-2 rounded-full transition-all duration-300 ${
                     index === currentIndex
-                      ? 'w-8 bg-primary-500'
-                      : 'w-2 bg-gray-300 hover:bg-gray-400'
+                      ? "w-8 bg-primary-500"
+                      : "w-2 bg-gray-300 hover:bg-gray-400"
                   }`}
                 />
               ))}
@@ -208,10 +216,10 @@ const Testimonials = () => {
           className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16"
         >
           {[
-            { value: '4.9', label: 'متوسط التقييم', suffix: '/5' },
-            { value: '10K+', label: 'عميل راضٍ', suffix: '' },
-            { value: '98%', label: 'نسبة الرضا', suffix: '' },
-            { value: '5K+', label: 'تقييم إيجابي', suffix: '' },
+            { value: "4.9", label: "متوسط التقييم", suffix: "/5" },
+            { value: "10K+", label: "عميل راضٍ", suffix: "" },
+            { value: "98%", label: "نسبة الرضا", suffix: "" },
+            { value: "5K+", label: "تقييم إيجابي", suffix: "" },
           ].map((stat, index) => (
             <motion.div
               key={index}

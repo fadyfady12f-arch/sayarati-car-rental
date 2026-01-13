@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Search,
   Filter,
@@ -13,144 +13,161 @@ import {
   Fuel,
   Settings,
   Heart,
-  ChevronDown
-} from 'lucide-react';
-import { formatPrice } from '../utils/helpers';
+  ChevronDown,
+} from "lucide-react";
+import { formatPrice } from "../utils/helpers";
 
 // Mock data - will be replaced with API call
 const allCars = [
   {
-    id: '1',
-    name: 'مرسيدس E-Class',
-    brand: 'Mercedes',
+    id: "1",
+    name: "مرسيدس E-Class",
+    brand: "Mercedes",
     year: 2024,
-    image: '/images/cars/mercedes-e-class.jpg',
+    image:
+      "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=800&q=80",
     pricePerDay: 150000,
     rating: 4.9,
     reviews: 128,
     seats: 5,
-    transmission: 'أوتوماتيك',
-    fuelType: 'بنزين',
-    category: 'luxury',
+    transmission: "أوتوماتيك",
+    fuelType: "بنزين",
+    category: "luxury",
   },
   {
-    id: '2',
-    name: 'بي إم دبليو X5',
-    brand: 'BMW',
+    id: "2",
+    name: "بي إم دبليو X5",
+    brand: "BMW",
     year: 2024,
-    image: '/images/cars/bmw-x5.jpg',
+    image:
+      "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=800&q=80",
     pricePerDay: 180000,
     rating: 4.8,
     reviews: 96,
     seats: 7,
-    transmission: 'أوتوماتيك',
-    fuelType: 'ديزل',
-    category: 'suv',
+    transmission: "أوتوماتيك",
+    fuelType: "ديزل",
+    category: "suv",
   },
   {
-    id: '3',
-    name: 'تويوتا كامري',
-    brand: 'Toyota',
+    id: "3",
+    name: "تويوتا كامري",
+    brand: "Toyota",
     year: 2024,
-    image: '/images/cars/toyota-camry.jpg',
+    image:
+      "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?auto=format&fit=crop&w=800&q=80",
     pricePerDay: 80000,
     rating: 4.7,
     reviews: 234,
     seats: 5,
-    transmission: 'أوتوماتيك',
-    fuelType: 'هايبرد',
-    category: 'sedan',
+    transmission: "أوتوماتيك",
+    fuelType: "هايبرد",
+    category: "sedan",
   },
   {
-    id: '4',
-    name: 'هيونداي إلنترا',
-    brand: 'Hyundai',
+    id: "4",
+    name: "هيونداي إلنترا",
+    brand: "Hyundai",
     year: 2024,
-    image: '/images/cars/hyundai-elantra.jpg',
+    image:
+      "https://images.unsplash.com/photo-1629897048514-3dd7414fe72a?auto=format&fit=crop&w=800&q=80",
     pricePerDay: 50000,
     rating: 4.5,
     reviews: 189,
     seats: 5,
-    transmission: 'أوتوماتيك',
-    fuelType: 'بنزين',
-    category: 'economy',
+    transmission: "أوتوماتيك",
+    fuelType: "بنزين",
+    category: "economy",
   },
   {
-    id: '5',
-    name: 'أودي A6',
-    brand: 'Audi',
+    id: "5",
+    name: "أودي A6",
+    brand: "Audi",
     year: 2024,
-    image: '/images/cars/audi-a6.jpg',
+    image:
+      "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=800&q=80",
     pricePerDay: 140000,
     rating: 4.8,
     reviews: 87,
     seats: 5,
-    transmission: 'أوتوماتيك',
-    fuelType: 'بنزين',
-    category: 'luxury',
+    transmission: "أوتوماتيك",
+    fuelType: "بنزين",
+    category: "luxury",
   },
   {
-    id: '6',
-    name: 'كيا سبورتاج',
-    brand: 'Kia',
+    id: "6",
+    name: "كيا سبورتاج",
+    brand: "Kia",
     year: 2024,
-    image: '/images/cars/kia-sportage.jpg',
+    image:
+      "https://images.unsplash.com/photo-1609521263047-f8f205293f24?auto=format&fit=crop&w=800&q=80",
     pricePerDay: 65000,
     rating: 4.5,
     reviews: 156,
     seats: 5,
-    transmission: 'أوتوماتيك',
-    fuelType: 'بنزين',
-    category: 'suv',
+    transmission: "أوتوماتيك",
+    fuelType: "بنزين",
+    category: "suv",
   },
 ];
 
 const categories = [
-  { id: 'all', label: 'الكل' },
-  { id: 'economy', label: 'اقتصادية' },
-  { id: 'sedan', label: 'سيدان' },
-  { id: 'suv', label: 'SUV' },
-  { id: 'luxury', label: 'فاخرة' },
+  { id: "all", label: "الكل" },
+  { id: "economy", label: "اقتصادية" },
+  { id: "sedan", label: "سيدان" },
+  { id: "suv", label: "SUV" },
+  { id: "luxury", label: "فاخرة" },
 ];
 
 const sortOptions = [
-  { id: 'popular', label: 'الأكثر شعبية' },
-  { id: 'price_low', label: 'السعر: من الأقل للأعلى' },
-  { id: 'price_high', label: 'السعر: من الأعلى للأقل' },
-  { id: 'rating', label: 'التقييم' },
-  { id: 'newest', label: 'الأحدث' },
+  { id: "popular", label: "الأكثر شعبية" },
+  { id: "price_low", label: "السعر: من الأقل للأعلى" },
+  { id: "price_high", label: "السعر: من الأعلى للأقل" },
+  { id: "rating", label: "التقييم" },
+  { id: "newest", label: "الأحدث" },
 ];
 
 const Cars = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [showFilters, setShowFilters] = useState(false);
   const [favorites, setFavorites] = useState<string[]>([]);
 
   // Filter states
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || 'all');
-  const [sortBy, setSortBy] = useState('popular');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(
+    searchParams.get("category") || "all",
+  );
+  const [sortBy, setSortBy] = useState("popular");
   const [priceRange, setPriceRange] = useState([0, 200000]);
-  const [selectedTransmission, setSelectedTransmission] = useState<string[]>([]);
+  const [selectedTransmission, setSelectedTransmission] = useState<string[]>(
+    [],
+  );
   const [selectedFuelType, setSelectedFuelType] = useState<string[]>([]);
 
   // Filter cars
   const filteredCars = allCars.filter((car) => {
-    if (selectedCategory !== 'all' && car.category !== selectedCategory) return false;
-    if (searchQuery && !car.name.includes(searchQuery) && !car.brand.toLowerCase().includes(searchQuery.toLowerCase())) return false;
-    if (car.pricePerDay < priceRange[0] || car.pricePerDay > priceRange[1]) return false;
+    if (selectedCategory !== "all" && car.category !== selectedCategory)
+      return false;
+    if (
+      searchQuery &&
+      !car.name.includes(searchQuery) &&
+      !car.brand.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+      return false;
+    if (car.pricePerDay < priceRange[0] || car.pricePerDay > priceRange[1])
+      return false;
     return true;
   });
 
   // Sort cars
   const sortedCars = [...filteredCars].sort((a, b) => {
     switch (sortBy) {
-      case 'price_low':
+      case "price_low":
         return a.pricePerDay - b.pricePerDay;
-      case 'price_high':
+      case "price_high":
         return b.pricePerDay - a.pricePerDay;
-      case 'rating':
+      case "rating":
         return b.rating - a.rating;
       default:
         return b.reviews - a.reviews;
@@ -159,7 +176,9 @@ const Cars = () => {
 
   const toggleFavorite = (carId: string) => {
     setFavorites((prev) =>
-      prev.includes(carId) ? prev.filter((id) => id !== carId) : [...prev, carId]
+      prev.includes(carId)
+        ? prev.filter((id) => id !== carId)
+        : [...prev, carId],
     );
   };
 
@@ -197,7 +216,10 @@ const Cars = () => {
                 <h4 className="font-semibold text-gray-800 mb-3">الفئة</h4>
                 <div className="space-y-2">
                   {categories.map((cat) => (
-                    <label key={cat.id} className="flex items-center gap-3 cursor-pointer">
+                    <label
+                      key={cat.id}
+                      className="flex items-center gap-3 cursor-pointer"
+                    >
                       <input
                         type="radio"
                         name="category"
@@ -213,7 +235,9 @@ const Cars = () => {
 
               {/* Price Range */}
               <div className="mb-6">
-                <h4 className="font-semibold text-gray-800 mb-3">السعر اليومي</h4>
+                <h4 className="font-semibold text-gray-800 mb-3">
+                  السعر اليومي
+                </h4>
                 <div className="space-y-3">
                   <input
                     type="range"
@@ -221,7 +245,9 @@ const Cars = () => {
                     max="200000"
                     step="10000"
                     value={priceRange[1]}
-                    onChange={(e) => setPriceRange([0, parseInt(e.target.value)])}
+                    onChange={(e) =>
+                      setPriceRange([0, parseInt(e.target.value)])
+                    }
                     className="w-full accent-primary-500"
                   />
                   <div className="flex justify-between text-sm text-gray-600">
@@ -233,18 +259,28 @@ const Cars = () => {
 
               {/* Transmission */}
               <div className="mb-6">
-                <h4 className="font-semibold text-gray-800 mb-3">ناقل الحركة</h4>
+                <h4 className="font-semibold text-gray-800 mb-3">
+                  ناقل الحركة
+                </h4>
                 <div className="space-y-2">
-                  {['أوتوماتيك', 'يدوي'].map((type) => (
-                    <label key={type} className="flex items-center gap-3 cursor-pointer">
+                  {["أوتوماتيك", "يدوي"].map((type) => (
+                    <label
+                      key={type}
+                      className="flex items-center gap-3 cursor-pointer"
+                    >
                       <input
                         type="checkbox"
                         checked={selectedTransmission.includes(type)}
                         onChange={(e) => {
                           if (e.target.checked) {
-                            setSelectedTransmission([...selectedTransmission, type]);
+                            setSelectedTransmission([
+                              ...selectedTransmission,
+                              type,
+                            ]);
                           } else {
-                            setSelectedTransmission(selectedTransmission.filter((t) => t !== type));
+                            setSelectedTransmission(
+                              selectedTransmission.filter((t) => t !== type),
+                            );
                           }
                         }}
                         className="w-4 h-4 text-primary-500 rounded focus:ring-primary-500"
@@ -259,8 +295,11 @@ const Cars = () => {
               <div className="mb-6">
                 <h4 className="font-semibold text-gray-800 mb-3">نوع الوقود</h4>
                 <div className="space-y-2">
-                  {['بنزين', 'ديزل', 'هايبرد', 'كهربائي'].map((type) => (
-                    <label key={type} className="flex items-center gap-3 cursor-pointer">
+                  {["بنزين", "ديزل", "هايبرد", "كهربائي"].map((type) => (
+                    <label
+                      key={type}
+                      className="flex items-center gap-3 cursor-pointer"
+                    >
                       <input
                         type="checkbox"
                         checked={selectedFuelType.includes(type)}
@@ -268,7 +307,9 @@ const Cars = () => {
                           if (e.target.checked) {
                             setSelectedFuelType([...selectedFuelType, type]);
                           } else {
-                            setSelectedFuelType(selectedFuelType.filter((t) => t !== type));
+                            setSelectedFuelType(
+                              selectedFuelType.filter((t) => t !== type),
+                            );
                           }
                         }}
                         className="w-4 h-4 text-primary-500 rounded focus:ring-primary-500"
@@ -282,7 +323,7 @@ const Cars = () => {
               {/* Reset Button */}
               <button
                 onClick={() => {
-                  setSelectedCategory('all');
+                  setSelectedCategory("all");
                   setPriceRange([0, 200000]);
                   setSelectedTransmission([]);
                   setSelectedFuelType([]);
@@ -340,17 +381,17 @@ const Cars = () => {
                   {/* View Mode */}
                   <div className="flex items-center bg-gray-100 rounded-lg p-1">
                     <button
-                      onClick={() => setViewMode('grid')}
+                      onClick={() => setViewMode("grid")}
                       className={`p-2 rounded-md transition-colors ${
-                        viewMode === 'grid' ? 'bg-white shadow-sm' : ''
+                        viewMode === "grid" ? "bg-white shadow-sm" : ""
                       }`}
                     >
                       <Grid className="w-4 h-4" />
                     </button>
                     <button
-                      onClick={() => setViewMode('list')}
+                      onClick={() => setViewMode("list")}
                       className={`p-2 rounded-md transition-colors ${
-                        viewMode === 'list' ? 'bg-white shadow-sm' : ''
+                        viewMode === "list" ? "bg-white shadow-sm" : ""
                       }`}
                     >
                       <List className="w-4 h-4" />
@@ -363,9 +404,10 @@ const Cars = () => {
             {/* Cars Grid/List */}
             <motion.div
               layout
-              className={viewMode === 'grid'
-                ? 'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6'
-                : 'space-y-4'
+              className={
+                viewMode === "grid"
+                  ? "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
+                  : "space-y-4"
               }
             >
               <AnimatePresence>
@@ -379,7 +421,7 @@ const Cars = () => {
                     whileHover={{ y: -5 }}
                     className="group cursor-pointer"
                   >
-                    {viewMode === 'grid' ? (
+                    {viewMode === "grid" ? (
                       // Grid Card
                       <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
                         <div className="relative aspect-[16/10] overflow-hidden">
@@ -388,7 +430,8 @@ const Cars = () => {
                             alt={car.name}
                             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                             onError={(e) => {
-                              (e.target as HTMLImageElement).src = '/images/car-placeholder.jpg';
+                              (e.target as HTMLImageElement).src =
+                                "/images/car-placeholder.jpg";
                             }}
                           />
                           <button
@@ -399,22 +442,30 @@ const Cars = () => {
                             className={`absolute top-4 left-4 w-10 h-10 rounded-full flex items-center justify-center
                                      transition-all duration-300 ${
                                        favorites.includes(car.id)
-                                         ? 'bg-red-500 text-white'
-                                         : 'bg-white/80 text-gray-700 hover:bg-white'
+                                         ? "bg-red-500 text-white"
+                                         : "bg-white/80 text-gray-700 hover:bg-white"
                                      }`}
                           >
-                            <Heart className={`w-5 h-5 ${favorites.includes(car.id) ? 'fill-current' : ''}`} />
+                            <Heart
+                              className={`w-5 h-5 ${favorites.includes(car.id) ? "fill-current" : ""}`}
+                            />
                           </button>
                         </div>
                         <div className="p-5">
                           <div className="flex items-start justify-between mb-3">
                             <div>
-                              <h3 className="text-lg font-bold text-gray-900">{car.name}</h3>
-                              <p className="text-sm text-gray-500">{car.brand} • {car.year}</p>
+                              <h3 className="text-lg font-bold text-gray-900">
+                                {car.name}
+                              </h3>
+                              <p className="text-sm text-gray-500">
+                                {car.brand} • {car.year}
+                              </p>
                             </div>
                             <div className="flex items-center gap-1 bg-yellow-50 px-2 py-1 rounded-lg">
                               <Star className="w-4 h-4 text-yellow-500 fill-current" />
-                              <span className="text-sm font-semibold">{car.rating}</span>
+                              <span className="text-sm font-semibold">
+                                {car.rating}
+                              </span>
                             </div>
                           </div>
                           <div className="flex items-center gap-4 text-sm text-gray-600 mb-4">
@@ -422,7 +473,8 @@ const Cars = () => {
                               <Users className="w-4 h-4" /> {car.seats}
                             </span>
                             <span className="flex items-center gap-1">
-                              <Settings className="w-4 h-4" /> {car.transmission}
+                              <Settings className="w-4 h-4" />{" "}
+                              {car.transmission}
                             </span>
                             <span className="flex items-center gap-1">
                               <Fuel className="w-4 h-4" /> {car.fuelType}
@@ -433,7 +485,9 @@ const Cars = () => {
                               <span className="text-2xl font-bold text-primary-600">
                                 {formatPrice(car.pricePerDay)}
                               </span>
-                              <span className="text-sm text-gray-500 mr-1">/ يوم</span>
+                              <span className="text-sm text-gray-500 mr-1">
+                                / يوم
+                              </span>
                             </div>
                             <button className="btn-primary py-2 px-4 text-sm">
                               احجز الآن
@@ -450,7 +504,8 @@ const Cars = () => {
                             alt={car.name}
                             className="w-full h-full object-cover"
                             onError={(e) => {
-                              (e.target as HTMLImageElement).src = '/images/car-placeholder.jpg';
+                              (e.target as HTMLImageElement).src =
+                                "/images/car-placeholder.jpg";
                             }}
                           />
                         </div>
@@ -458,13 +513,21 @@ const Cars = () => {
                           <div>
                             <div className="flex items-start justify-between mb-2">
                               <div>
-                                <h3 className="text-xl font-bold text-gray-900">{car.name}</h3>
-                                <p className="text-gray-500">{car.brand} • {car.year}</p>
+                                <h3 className="text-xl font-bold text-gray-900">
+                                  {car.name}
+                                </h3>
+                                <p className="text-gray-500">
+                                  {car.brand} • {car.year}
+                                </p>
                               </div>
                               <div className="flex items-center gap-1 bg-yellow-50 px-3 py-1 rounded-lg">
                                 <Star className="w-4 h-4 text-yellow-500 fill-current" />
-                                <span className="font-semibold">{car.rating}</span>
-                                <span className="text-sm text-gray-500">({car.reviews})</span>
+                                <span className="font-semibold">
+                                  {car.rating}
+                                </span>
+                                <span className="text-sm text-gray-500">
+                                  ({car.reviews})
+                                </span>
                               </div>
                             </div>
                             <div className="flex items-center gap-6 text-gray-600">
@@ -472,7 +535,8 @@ const Cars = () => {
                                 <Users className="w-5 h-5" /> {car.seats} مقاعد
                               </span>
                               <span className="flex items-center gap-2">
-                                <Settings className="w-5 h-5" /> {car.transmission}
+                                <Settings className="w-5 h-5" />{" "}
+                                {car.transmission}
                               </span>
                               <span className="flex items-center gap-2">
                                 <Fuel className="w-5 h-5" /> {car.fuelType}
@@ -494,15 +558,15 @@ const Cars = () => {
                                 }}
                                 className={`p-3 rounded-xl transition-colors ${
                                   favorites.includes(car.id)
-                                    ? 'bg-red-50 text-red-500'
-                                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                                    ? "bg-red-50 text-red-500"
+                                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                                 }`}
                               >
-                                <Heart className={`w-5 h-5 ${favorites.includes(car.id) ? 'fill-current' : ''}`} />
+                                <Heart
+                                  className={`w-5 h-5 ${favorites.includes(car.id) ? "fill-current" : ""}`}
+                                />
                               </button>
-                              <button className="btn-primary">
-                                احجز الآن
-                              </button>
+                              <button className="btn-primary">احجز الآن</button>
                             </div>
                           </div>
                         </div>
@@ -543,10 +607,10 @@ const Cars = () => {
               className="fixed inset-0 bg-black/50 z-50 lg:hidden"
             />
             <motion.div
-              initial={{ x: '100%' }}
+              initial={{ x: "100%" }}
               animate={{ x: 0 }}
-              exit={{ x: '100%' }}
-              transition={{ type: 'tween' }}
+              exit={{ x: "100%" }}
+              transition={{ type: "tween" }}
               className="fixed top-0 left-0 h-full w-80 bg-white z-50 lg:hidden overflow-y-auto"
             >
               <div className="p-6">
@@ -563,7 +627,10 @@ const Cars = () => {
                     <h4 className="font-semibold text-gray-800 mb-3">الفئة</h4>
                     <div className="space-y-2">
                       {categories.map((cat) => (
-                        <label key={cat.id} className="flex items-center gap-3 cursor-pointer">
+                        <label
+                          key={cat.id}
+                          className="flex items-center gap-3 cursor-pointer"
+                        >
                           <input
                             type="radio"
                             name="category-mobile"
@@ -579,14 +646,18 @@ const Cars = () => {
 
                   {/* Price Range */}
                   <div>
-                    <h4 className="font-semibold text-gray-800 mb-3">السعر اليومي</h4>
+                    <h4 className="font-semibold text-gray-800 mb-3">
+                      السعر اليومي
+                    </h4>
                     <input
                       type="range"
                       min="0"
                       max="200000"
                       step="10000"
                       value={priceRange[1]}
-                      onChange={(e) => setPriceRange([0, parseInt(e.target.value)])}
+                      onChange={(e) =>
+                        setPriceRange([0, parseInt(e.target.value)])
+                      }
                       className="w-full accent-primary-500"
                     />
                     <div className="flex justify-between text-sm text-gray-600 mt-2">

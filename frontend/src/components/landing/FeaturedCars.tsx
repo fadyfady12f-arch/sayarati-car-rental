@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import {
   Star,
   Users,
@@ -9,118 +9,127 @@ import {
   Heart,
   Eye,
   ChevronLeft,
-  ChevronRight
-} from 'lucide-react';
-import { formatPrice } from '../../utils/helpers';
+  ChevronRight,
+} from "lucide-react";
+import { formatPrice } from "../../utils/helpers";
 
 const featuredCars = [
   {
-    id: '1',
-    name: 'مرسيدس E-Class',
-    brand: 'Mercedes',
+    id: "1",
+    name: "مرسيدس E-Class",
+    brand: "Mercedes",
     year: 2024,
-    image: '/images/cars/mercedes-e-class.jpg',
+    image:
+      "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=800&q=80",
     pricePerDay: 150000,
     rating: 4.9,
     reviews: 128,
     seats: 5,
-    transmission: 'أوتوماتيك',
-    fuelType: 'بنزين',
-    category: 'فاخرة',
+    transmission: "أوتوماتيك",
+    fuelType: "بنزين",
+    category: "فاخرة",
     featured: true,
   },
   {
-    id: '2',
-    name: 'بي إم دبليو X5',
-    brand: 'BMW',
+    id: "2",
+    name: "بي إم دبليو X5",
+    brand: "BMW",
     year: 2024,
-    image: '/images/cars/bmw-x5.jpg',
+    image:
+      "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=800&q=80",
     pricePerDay: 180000,
     rating: 4.8,
     reviews: 96,
     seats: 7,
-    transmission: 'أوتوماتيك',
-    fuelType: 'ديزل',
-    category: 'SUV',
+    transmission: "أوتوماتيك",
+    fuelType: "ديزل",
+    category: "SUV",
     featured: true,
   },
   {
-    id: '3',
-    name: 'تويوتا كامري',
-    brand: 'Toyota',
+    id: "3",
+    name: "تويوتا كامري",
+    brand: "Toyota",
     year: 2024,
-    image: '/images/cars/toyota-camry.jpg',
+    image:
+      "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?auto=format&fit=crop&w=800&q=80",
     pricePerDay: 80000,
     rating: 4.7,
     reviews: 234,
     seats: 5,
-    transmission: 'أوتوماتيك',
-    fuelType: 'هايبرد',
-    category: 'سيدان',
+    transmission: "أوتوماتيك",
+    fuelType: "هايبرد",
+    category: "سيدان",
     featured: true,
   },
   {
-    id: '4',
-    name: 'أودي A6',
-    brand: 'Audi',
+    id: "4",
+    name: "أودي A6",
+    brand: "Audi",
     year: 2024,
-    image: '/images/cars/audi-a6.jpg',
+    image:
+      "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=800&q=80",
     pricePerDay: 140000,
     rating: 4.8,
     reviews: 87,
     seats: 5,
-    transmission: 'أوتوماتيك',
-    fuelType: 'بنزين',
-    category: 'فاخرة',
+    transmission: "أوتوماتيك",
+    fuelType: "بنزين",
+    category: "فاخرة",
     featured: true,
   },
   {
-    id: '5',
-    name: 'هيونداي توسان',
-    brand: 'Hyundai',
+    id: "5",
+    name: "هيونداي توسان",
+    brand: "Hyundai",
     year: 2024,
-    image: '/images/cars/hyundai-tucson.jpg',
+    image:
+      "https://images.unsplash.com/photo-1633695269498-15e8f853d2e4?auto=format&fit=crop&w=800&q=80",
     pricePerDay: 70000,
     rating: 4.6,
     reviews: 156,
     seats: 5,
-    transmission: 'أوتوماتيك',
-    fuelType: 'بنزين',
-    category: 'SUV',
+    transmission: "أوتوماتيك",
+    fuelType: "بنزين",
+    category: "SUV",
     featured: true,
   },
   {
-    id: '6',
-    name: 'كيا سبورتاج',
-    brand: 'Kia',
+    id: "6",
+    name: "كيا سبورتاج",
+    brand: "Kia",
     year: 2024,
-    image: '/images/cars/kia-sportage.jpg',
+    image:
+      "https://images.unsplash.com/photo-1609521263047-f8f205293f24?auto=format&fit=crop&w=800&q=80",
     pricePerDay: 65000,
     rating: 4.5,
     reviews: 189,
     seats: 5,
-    transmission: 'أوتوماتيك',
-    fuelType: 'بنزين',
-    category: 'SUV',
+    transmission: "أوتوماتيك",
+    fuelType: "بنزين",
+    category: "SUV",
     featured: true,
   },
 ];
 
-const filters = ['الكل', 'فاخرة', 'SUV', 'سيدان', 'اقتصادية'];
+const filters = ["الكل", "فاخرة", "SUV", "سيدان", "اقتصادية"];
 
 const FeaturedCars = () => {
   const navigate = useNavigate();
-  const [activeFilter, setActiveFilter] = useState('الكل');
+  const [activeFilter, setActiveFilter] = useState("الكل");
   const [favorites, setFavorites] = useState<string[]>([]);
 
-  const filteredCars = activeFilter === 'الكل'
-    ? featuredCars
-    : featuredCars.filter((car) => car.category === activeFilter);
+  const filteredCars =
+    activeFilter === "الكل"
+      ? featuredCars
+      : featuredCars.filter((car) => car.category === activeFilter);
 
   const toggleFavorite = (carId: string, e: React.MouseEvent) => {
     e.stopPropagation();
     setFavorites((prev) =>
-      prev.includes(carId) ? prev.filter((id) => id !== carId) : [...prev, carId]
+      prev.includes(carId)
+        ? prev.filter((id) => id !== carId)
+        : [...prev, carId],
     );
   };
 
@@ -176,8 +185,8 @@ const FeaturedCars = () => {
               onClick={() => setActiveFilter(filter)}
               className={`px-6 py-2 rounded-full font-medium transition-all duration-300 ${
                 activeFilter === filter
-                  ? 'bg-primary-500 text-white shadow-lg shadow-primary-500/30'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  ? "bg-primary-500 text-white shadow-lg shadow-primary-500/30"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
               }`}
             >
               {filter}
@@ -213,7 +222,8 @@ const FeaturedCars = () => {
                       alt={car.name}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                       onError={(e) => {
-                        (e.target as HTMLImageElement).src = '/images/car-placeholder.jpg';
+                        (e.target as HTMLImageElement).src =
+                          "/images/car-placeholder.jpg";
                       }}
                     />
 
@@ -233,12 +243,12 @@ const FeaturedCars = () => {
                       className={`absolute top-4 left-4 w-10 h-10 rounded-full flex items-center justify-center
                                transition-all duration-300 ${
                                  favorites.includes(car.id)
-                                   ? 'bg-red-500 text-white'
-                                   : 'bg-white/80 text-gray-700 hover:bg-white'
+                                   ? "bg-red-500 text-white"
+                                   : "bg-white/80 text-gray-700 hover:bg-white"
                                }`}
                     >
                       <Heart
-                        className={`w-5 h-5 ${favorites.includes(car.id) ? 'fill-current' : ''}`}
+                        className={`w-5 h-5 ${favorites.includes(car.id) ? "fill-current" : ""}`}
                       />
                     </button>
 
@@ -262,12 +272,18 @@ const FeaturedCars = () => {
                         <h3 className="text-lg font-bold text-gray-900 group-hover:text-primary-600 transition-colors">
                           {car.name}
                         </h3>
-                        <p className="text-sm text-gray-500">{car.brand} • {car.year}</p>
+                        <p className="text-sm text-gray-500">
+                          {car.brand} • {car.year}
+                        </p>
                       </div>
                       <div className="flex items-center gap-1 bg-yellow-50 px-2 py-1 rounded-lg">
                         <Star className="w-4 h-4 text-yellow-500 fill-current" />
-                        <span className="text-sm font-semibold text-gray-900">{car.rating}</span>
-                        <span className="text-xs text-gray-500">({car.reviews})</span>
+                        <span className="text-sm font-semibold text-gray-900">
+                          {car.rating}
+                        </span>
+                        <span className="text-xs text-gray-500">
+                          ({car.reviews})
+                        </span>
                       </div>
                     </div>
 
@@ -293,7 +309,9 @@ const FeaturedCars = () => {
                         <span className="text-2xl font-bold text-primary-600">
                           {formatPrice(car.pricePerDay)}
                         </span>
-                        <span className="text-sm text-gray-500 mr-1">/ يوم</span>
+                        <span className="text-sm text-gray-500 mr-1">
+                          / يوم
+                        </span>
                       </div>
                       <motion.button
                         whileHover={{ scale: 1.05 }}
@@ -320,7 +338,7 @@ const FeaturedCars = () => {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => navigate('/cars')}
+            onClick={() => navigate("/cars")}
             className="btn-outline flex items-center gap-2 mx-auto"
           >
             عرض المزيد من السيارات
