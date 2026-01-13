@@ -1,0 +1,105 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: sayarati_postgres_dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: sayarati
+      POSTGRES_PASSWORD: sayarati_dev
+      POSTGRES_DB: sayarati_dev
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sayarati"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - sayarati_dev_network
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: sayarati_redis_dev
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_dev_data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - sayarati_dev_network
+
+  # Backend API (Development)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: development
+    container_name: sayarati_backend_dev
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      PORT: 5000
+      DATABASE_URL: postgresql://sayarati:sayarati_dev@postgres:5432/sayarati_dev
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: dev_jwt_secret_key
+      JWT_REFRESH_SECRET: dev_refresh_secret_key
+      CORS_ORIGIN: http://localhost:3000
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "5000:5000"
+    networks:
+      - sayarati_dev_network
+
+  # Frontend (Development)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: development
+    container_name: sayarati_frontend_dev
+    restart: unless-stopped
+    environment:
+      VITE_API_URL: http://localhost:5000/api
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+    networks:
+      - sayarati_dev_network
+
+  # Adminer (Database Management)
+  adminer:
+    image: adminer:latest
+    container_name: sayarati_adminer_dev
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    networks:
+      - sayarati_dev_network
+
+volumes:
+  postgres_dev_data:
+    driver: local
+  redis_dev_data:
+    driver: local
+
+networks:
+  sayarati_dev_network:
+    driver: bridge
