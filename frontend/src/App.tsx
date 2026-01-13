@@ -11,6 +11,11 @@ import LoadingSpinner from "./components/common/LoadingSpinner";
 const Home = lazy(() => import("./pages/Home"));
 const Cars = lazy(() => import("./pages/Cars"));
 const CarDetail = lazy(() => import("./pages/CarDetail"));
+const About = lazy(() => import("./pages/About"));
+const Contact = lazy(() => import("./pages/Contact"));
+const FAQ = lazy(() => import("./pages/FAQ"));
+const Privacy = lazy(() => import("./pages/Privacy"));
+const Terms = lazy(() => import("./pages/Terms"));
 const Login = lazy(() => import("./pages/auth/Login"));
 const Register = lazy(() => import("./pages/auth/Register"));
 
@@ -35,6 +40,11 @@ function App() {
             <Route index element={<Home />} />
             <Route path="cars" element={<Cars />} />
             <Route path="cars/:id" element={<CarDetail />} />
+            <Route path="about" element={<About />} />
+            <Route path="contact" element={<Contact />} />
+            <Route path="faq" element={<FAQ />} />
+            <Route path="privacy" element={<Privacy />} />
+            <Route path="terms" element={<Terms />} />
           </Route>
 
           {/* Auth Routes */}
